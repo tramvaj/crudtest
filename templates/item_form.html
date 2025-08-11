@@ -1,0 +1,29 @@
+{% extends "base.html" %}
+{% block content %}
+  <section class="form-card">
+    <h2>{{ 'Edit item' if item else 'New item' }}</h2>
+    <form method="post" class="grid">
+      <label>
+        Title
+        <input name="title" type="text" maxlength="200" required value="{{ item.title if item else '' }}">
+      </label>
+      <label>
+        Status
+        <select name="status">
+          {% set s = item.status if item else 'todo' %}
+          <option value="todo" {{ 'selected' if s == 'todo' else '' }}>Todo</option>
+          <option value="in-progress" {{ 'selected' if s == 'in-progress' else '' }}>In progress</option>
+          <option value="done" {{ 'selected' if s == 'done' else '' }}>Done</option>
+        </select>
+      </label>
+      <label>
+        Description
+        <textarea name="description" rows="6" placeholder="Optional description">{{ item.description if item else '' }}</textarea>
+      </label>
+      <div class="button-row">
+        <button type="submit" class="primary">{{ 'Save changes' if item else 'Create item' }}</button>
+        <a href="{{ url_for('index') }}" role="button" class="secondary">Cancel</a>
+      </div>
+    </form>
+  </section>
+{% endblock %}

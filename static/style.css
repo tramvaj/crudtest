@@ -1,0 +1,17 @@
+/* Small custom styles to complement Pico.css */
+:root { --spacing: 0.75rem; }
+.flash-wrapper { margin-bottom: var(--spacing); }
+.flash { padding: var(--spacing); border-radius: 12px; }
+.flash.success { background: #e8fff2; color: #0a7a3a; }
+.flash.danger { background: #ffefef; color: #a00; }
+.flash.info { background: #eef6ff; color: #0b5aaa; }
+.header-row { display: flex; align-items: center; justify-content: space-between; gap: var(--spacing); }
+.form-card, .detail-card, .empty { padding: calc(var(--spacing) * 2); border: 1px solid hsl(210 18% 90%); border-radius: 16px; background: white; box-shadow: 0 4px 16px rgba(0,0,0,0.04); }
+.stats { display: flex; gap: 1rem; margin: var(--spacing) 0; color: hsl(210 10% 35%); }
+.badge { padding: 0.2rem 0.5rem; border-radius: 999px; font-size: 0.75rem; text-transform: lowercase; border: 1px solid transparent; }
+.badge.todo { background: #f1f5ff; color: #2542a3; border-color: #cfdafe; }
+.badge.in-progress { background: #fff7e6; color: #8a5a00; border-color: #ffe3ad; }
+.badge.done { background: #e8fff2; color: #0a7a3a; border-color: #adf0c5; }
+td.actions { white-space: nowrap; text-align: right; }
+.muted { color: hsl(210 10% 45%); }
+footer.container { margin-top: 3rem; color: hsl(210 10% 45%); }

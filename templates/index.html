@@ -1,0 +1,68 @@
+{% extends "base.html" %}
+{% block content %}
+  <section>
+    <header class="header-row">
+      <h1>Items</h1>
+      <a href="{{ url_for('create_item') }}" role="button" class="primary">New</a>
+    </header>
+
+    <form method="get" action="{{ url_for('index') }}" class="grid">
+      <input type="text" name="q" placeholder="Search title or description" value="{{ q or '' }}">
+      <select name="status">
+        <option value="">All statuses</option>
+        <option value="todo" {{ 'selected' if status == 'todo' else '' }}>Todo</option>
+        <option value="in-progress" {{ 'selected' if status == 'in-progress' else '' }}>In progress</option>
+        <option value="done" {{ 'selected' if status == 'done' else '' }}>Done</option>
+      </select>
+      <button type="submit">Apply</button>
+    </form>
+
+    <div class="stats">
+      <span>All: {{ counts.all }}</span>
+      <span>Todo: {{ counts.todo }}</span>
+      <span>In progress: {{ counts['in-progress'] }}</span>
+      <span>Done: {{ counts.done }}</span>
+    </div>
+
+    {% if items %}
+      <table role="grid">
+        <thead>
+          <tr>
+            <th>Title</th>
+            <th>Status</th>
+            <th>Created</th>
+            <th></th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for item in items %}
+          <tr>
+            <td>
+              <a href="{{ url_for('show_item', item_id=item.id) }}"><strong>{{ item.title }}</strong></a>
+              {% if item.description %}
+                <br><small class="muted">{{ item.description[:120] }}{% if item.description|length > 120 %}...{% endif %}</small>
+              {% endif %}
+            </td>
+            <td>
+              <span class="badge {{ item.status|replace(' ', '-') }}">{{ item.status }}</span>
+            </td>
+            <td><small>{{ item.created_at.strftime('%Y-%m-%d %H:%M') if item.created_at else '' }}</small></td>
+            <td class="actions">
+              <a href="{{ url_for('edit_item', item_id=item.id) }}" class="secondary">Edit</a>
+              <form id="del-{{ item.id }}" action="{{ url_for('delete_item', item_id=item.id) }}" method="post" style="display:inline">
+                <button type="button" class="contrast" onclick="confirmDelete('del-{{ item.id }}')">Delete</button>
+              </form>
+            </td>
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    {% else %}
+      <article class="empty">
+        <h3>No items yet</h3>
+        <p>Create your first item to get started.</p>
+        <a href="{{ url_for('create_item') }}" role="button">Create item</a>
+      </article>
+    {% endif %}
+  </section>
+{% endblock %}

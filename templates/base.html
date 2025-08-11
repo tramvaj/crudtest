@@ -1,0 +1,56 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>CRUDTest</title>
+    <link rel="stylesheet" href="https://unpkg.com/@picocss/pico@2.0.6/css/pico.min.css">
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+  </head>
+  <body>
+    <nav class="container-fluid">
+      <ul>
+        <li><strong>CRUDTest</strong></li>
+      </ul>
+      <ul>
+        <li><a href="{{ url_for('index') }}" role="button" class="contrast">Home</a></li>
+        <li><a href="{{ url_for('create_item') }}" role="button">New Item</a></li>
+        <li>
+          <details class="dropdown">
+            <summary>Filter</summary>
+            <ul>
+              <li><a href="{{ url_for('index') }}">All</a></li>
+              <li><a href="{{ url_for('index', status='todo') }}">Todo</a></li>
+              <li><a href="{{ url_for('index', status='in-progress') }}">In progress</a></li>
+              <li><a href="{{ url_for('index', status='done') }}">Done</a></li>
+            </ul>
+          </details>
+        </li>
+      </ul>
+    </nav>
+
+    <main class="container">
+      {% with messages = get_flashed_messages(with_categories=true) %}
+        {% if messages %}
+          <div class="flash-wrapper">
+            {% for category, message in messages %}
+              <article class="flash {{ category }}">
+                <span>{{ message }}</span>
+              </article>
+            {% endfor %}
+          </div>
+        {% endif %}
+      {% endwith %}
+
+      {% block content %}{% endblock %}
+    </main>
+
+    <footer class="container">
+      <small>Built with Flask and Supabase Postgres</small>
+    </footer>
+
+    <script>
+      function confirmDelete(formId) { const ok = confirm("Delete this item?"); if (ok) document.getElementById(formId).submit(); }
+    </script>
+  </body>
+</html>
